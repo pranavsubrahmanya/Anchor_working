@@ -183,8 +183,8 @@ def contain(command, image_name, image_dir, container_id, container_dir, cpu_sha
     """
     try:
         # create a new mount namespace
-        linux.unshare(linux.CLONE_NEWNS)
-        linux.unshare(linux.CLONE_NEWUTS)  # switch to a new UTS namespace
+        # linux.unshare(linux.CLONE_NEWNS)
+        # linux.unshare(linux.CLONE_NEWUTS)  # switch to a new UTS namespace
         linux.sethostname(container_id)  # change hostname to container_id
 
         # CLONE_NEWNS provides the child with a new mount namespace (requires ADMIN capability)
@@ -224,6 +224,7 @@ def contain(command, image_name, image_dir, container_id, container_dir, cpu_sha
 
 
 @cli.command(context_settings=dict(ignore_unknown_options=True,))
+@click.option('--cpu-shares', help='CPU shares (relative weight)', default=0)
 @click.option('--image-name', '-i', help='Image name', default='ubuntu-export')
 @click.option('--image-dir', help='Images directory',
               default='.')
